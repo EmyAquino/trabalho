@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}PEnsE-Submite{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header class="topo">
+    <a href="{{ url_for('index') }}" class="topo__logo">
+      <img src="{{ url_for('static', filename='img/logo-pense.png') }}" alt="PEnsE">
+    </a>
+    <nav class="topo__menu" aria-label="Principal">
+      <a href="{{ url_for('index') }}"
+         class="{{ 'ativo' if request.endpoint in ('index', 'detalhe') }}">INÍCIO</a>
+      <a href="{{ url_for('formulario') }}"
+         class="{{ 'ativo' if request.endpoint == 'formulario' }}">FORMULÁRIO</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+    {% with mensagens = get_flashed_messages() %}
+      {% for m in mensagens %}
+        <p class="aviso" role="status">{{ m }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    {% block conteudo %}{% endblock %}
+  </main>
+
+  <footer class="rodape">
+    <p>11ª Jornada Científica, Tecnológica e Cultural do IFRS</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block titulo %}Formulário - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<form class="formulario" method="POST" action="{{ url_for('formulario') }}">
+  <h1 class="formulario__titulo">Formulário de Submissão</h1>
+
+  <div class="campo">
+    <label for="titulo">Título do Trabalho:</label>
+    <div class="campo__entrada">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      <input type="text" id="titulo" name="titulo" required>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="autor">Nome do Autor:</label>
+    <div class="campo__entrada">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0z"/></svg>
+      <input type="text" id="autor" name="autor" required>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="campus">Campus/Instituição:</label>
+    <div class="campo__entrada">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <input type="text" id="campus" name="campus" required>
+    </div>
+  </div>
+
+  <div class="campo">
+    <label for="resumo">Resumo:</label>
+    <div class="campo__entrada campo__entrada--area">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h12v16H6a2 2 0 0 0-2 2V5a2 2 0 0 1 2-2zM4 21h14"/></svg>
+      <textarea id="resumo" name="resumo" rows="6" required></textarea>
+    </div>
+  </div>
+
+  <!-- "Adicionar arquivo" fica para uma versão futura (exige enctype multipart/form-data e tratar upload no Flask) -->
+
+  <div class="formulario__rodape">
+    <fieldset class="modalidade">
+      <legend>Modalidade:</legend>
+      {% for m in modalidades %}
+        <label class="modalidade__opcao">
+          <input type="radio" name="modalidade" value="{{ m }}" {{ 'required' if loop.first }}>
+          <span>{{ m }}</span>
+        </label>
+      {% endfor %}
+    </fieldset>
+
+    <button type="submit" class="botao botao--principal">ENVIAR</button>
+  </div>
+</form>
+{% endblock %}

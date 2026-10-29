@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+<section class="apresentacao">
+  <img class="apresentacao__logo" src="{{ url_for('static', filename='img/logo-submite.png') }}" alt="PEnsE Submite">
+  <p>A ideia principal do PEnsE-Submite permite simular o envio de resumos acadêmicos e a visualização dos trabalhos dinamicamente.</p>
+</section>
+
+{% if trabalhos %}
+  <section class="grade">
+    {% for t in trabalhos %}
+      <article class="card">
+        <header class="card__topo">
+          <img class="card__avatar" src="{{ url_for('static', filename='img/avatar.png') }}" alt="">
+          <div>
+            <h2 class="card__titulo">{{ t.titulo }}</h2>
+            <p class="card__meta">{{ t.modalidade }} - {{ t.autor }}</p>
+          </div>
+        </header>
+        <img class="card__imagem" src="{{ url_for('static', filename='img/card.png') }}" alt="">
+        <p class="card__resumo">{{ t.resumo }}</p>
+        <a class="botao botao--contorno" href="{{ url_for('detalhe', id=loop.index0) }}">Visualizar</a>
+      </article>
+    {% endfor %}
+  </section>
+{% else %}
+  <p class="vazio">Nenhum trabalho submetido ainda. Seja o primeiro!</p>
+{% endif %}
+
+<section class="chamada">
+  <p>Quer adicionar algum resumo acadêmico?<br>Clique no botão abaixo!</p>
+  <a class="botao-mais" href="{{ url_for('formulario') }}" aria-label="Adicionar resumo">
+    <svg viewBox="0 0 24 24" width="44" height="44" aria-hidden="true"><path d="M12 4v16M4 12h16" stroke="#fff" stroke-width="3.5" stroke-linecap="round" fill="none"/></svg>
+  </a>
+</section>
+{% endblock %}
