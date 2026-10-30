@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, abort, flash, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 app.secret_key = "troque-esta-chave"  # necessária para flash()
@@ -39,13 +39,15 @@ def index():
 @app.route("/formulario", methods=["GET", "POST"])
 def formulario():
     if request.method == "POST":
-        trabalhos.append({
-            "titulo": request.form["titulo"].strip(),
-            "autor": request.form["autor"].strip(),
-            "campus": request.form["campus"].strip(),
-            "resumo": request.form["resumo"].strip(),
-            "modalidade": request.form["modalidade"],
-        })
+        trabalhos.append(
+            {
+                "titulo": request.form["titulo"].strip(),
+                "autor": request.form["autor"].strip(),
+                "campus": request.form["campus"].strip(),
+                "resumo": request.form["resumo"].strip(),
+                "modalidade": request.form["modalidade"],
+            }
+        )
         flash("Trabalho enviado com sucesso!")
         return redirect(url_for("index"))
     return render_template("formulario.html", modalidades=MODALIDADES)
