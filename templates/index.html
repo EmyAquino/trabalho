@@ -11,13 +11,13 @@
     {% for t in trabalhos %}
       <article class="card">
         <header class="card__topo">
-          <img class="card__avatar" src="{{ url_for('static', filename='img/gato1.png') }}" alt="">
+          <img class="card__avatar" src="{{ url_for('static', filename='img/gato1.jpg') }}" alt="">
           <div>
             <h2 class="card__titulo">{{ t.titulo }}</h2>
             <p class="card__meta">{{ t.modalidade }} - {{ t.autor }}</p>
           </div>
         </header>
-        <img class="card__imagem" src="{{ url_for('static', filename='img/gato1.png') }}" alt="">
+        <img class="card__imagem" src="{{ url_for('static', filename='img/gato1.jpg') }}" alt="">
         <p class="card__resumo">{{ t.resumo }}</p>
         <a class="botao botao--contorno" href="{{ url_for('detalhe', id=loop.index0) }}">Visualizar</a>
       </article>
