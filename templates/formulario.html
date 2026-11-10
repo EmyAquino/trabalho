@@ -8,7 +8,6 @@ Formulário de Submissão - PEnsE-Submite
 
 <style>
 
-
     .formulario {
         max-width: 650px;
         margin: 35px auto;
@@ -24,13 +23,10 @@ Formulário de Submissão - PEnsE-Submite
         text-align: center;
         font-size: 26px;
         font-weight: normal;
-
         padding: 12px;
         margin: -10px 0 30px 0;
-
         border-radius: 8px;
     }
-
 
     .campo {
         margin-bottom: 22px;
@@ -39,7 +35,6 @@ Formulário de Submissão - PEnsE-Submite
     .campo label {
         display: block;
         margin-bottom: 7px;
-
         color: #222222;
         font-size: 18px;
     }
@@ -49,18 +44,15 @@ Formulário de Submissão - PEnsE-Submite
     }
 
     .campo__entrada input,
-    .campo__entrada textarea {
+    .campo__entrada textarea,
+    .campo__entrada select {
         width: 100%;
         padding: 8px 5px;
-
         border: none;
         outline: none;
-
         background-color: transparent;
-
         font-size: 16px;
         font-family: inherit;
-
         box-sizing: border-box;
     }
 
@@ -69,52 +61,29 @@ Formulário de Submissão - PEnsE-Submite
         color: #666666;
     }
 
-
     .campo__entrada textarea {
-        min-height: 90px;
+        min-height: 110px;
         resize: vertical;
     }
 
-
-
-    .modalidade {
-        margin: 10px 0 22px 0;
-        padding: 0;
-
-        border: none;
-    }
-
-    .modalidade legend {
-        margin-bottom: 10px;
-
-        font-size: 18px;
-        color: #222222;
-    }
-
-    .modalidade__opcao {
-        display: block;
-
-        margin-bottom: 7px;
-
-        font-size: 16px;
-
+    .campo__entrada select {
         cursor: pointer;
     }
 
-    .modalidade__opcao input {
-        margin-right: 7px;
-        accent-color: #a8cf45;
+    .contador {
+        display: block;
+        margin-top: 5px;
+        color: #555555;
+        font-size: 12px;
+        text-align: right;
     }
-
 
     .arquivo {
         margin-top: 20px;
         margin-bottom: 25px;
-
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-
         gap: 8px;
     }
 
@@ -124,18 +93,12 @@ Formulário de Submissão - PEnsE-Submite
 
     .botao-arquivo {
         display: inline-block;
-
         background-color: #ffffff;
         color: #59683d;
-
         padding: 8px 18px;
-
         border-radius: 8px;
-
         cursor: pointer;
-
         font-size: 16px;
-
         transition: 0.2s;
     }
 
@@ -147,32 +110,24 @@ Formulário de Submissão - PEnsE-Submite
     #nome-arquivo {
         color: #555555;
         font-size: 13px;
-
         word-break: break-word;
     }
-
 
     .formulario__acoes {
         display: flex;
         justify-content: flex-end;
-
         margin-top: 15px;
     }
 
     .botao--principal {
         background-color: #ffffff;
         color: #59683d;
-
         border: none;
         border-radius: 8px;
-
         padding: 10px 30px;
-
         font-size: 17px;
         font-family: inherit;
-
         cursor: pointer;
-
         transition: 0.2s;
     }
 
@@ -180,7 +135,6 @@ Formulário de Submissão - PEnsE-Submite
         background-color: #a8cf45;
         color: #ffffff;
     }
-
 
     @media (max-width: 700px) {
 
@@ -254,8 +208,139 @@ Formulário de Submissão - PEnsE-Submite
 
         <div class="campo">
 
+            <label for="instituicao">
+                Instituição:
+            </label>
+
+            <div class="campo__entrada">
+
+                <select
+                    id="instituicao"
+                    name="instituicao"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Selecione uma instituição
+                    </option>
+
+                    <option value="IFAC">Instituto Federal do Acre - IFAC</option>
+
+                    <option value="IFAL">Instituto Federal de Alagoas - IFAL</option>
+
+                    <option value="IFAP">Instituto Federal do Amapá - IFAP</option>
+
+                    <option value="IFAM">Instituto Federal do Amazonas - IFAM</option>
+
+                    <option value="IFBA">Instituto Federal da Bahia - IFBA</option>
+
+                    <option value="IFBaiano">Instituto Federal Baiano - IF Baiano</option>
+
+                    <option value="IFB">Instituto Federal de Brasília - IFB</option>
+
+                    <option value="IFCE">Instituto Federal do Ceará - IFCE</option>
+
+                    <option value="IFES">Instituto Federal do Espírito Santo - IFES</option>
+
+                    <option value="IFG">Instituto Federal de Goiás - IFG</option>
+
+                    <option value="IFGoiano">Instituto Federal Goiano - IF Goiano</option>
+
+                    <option value="IFMA">Instituto Federal do Maranhão - IFMA</option>
+
+                    <option value="IFMT">Instituto Federal de Mato Grosso - IFMT</option>
+
+                    <option value="IFMS">Instituto Federal de Mato Grosso do Sul - IFMS</option>
+
+                    <option value="IFMG">Instituto Federal de Minas Gerais - IFMG</option>
+
+                    <option value="IFNMG">Instituto Federal do Norte de Minas Gerais - IFNMG</option>
+
+                    <option value="IFSudesteMG">
+                        Instituto Federal do Sudeste de Minas Gerais - IF Sudeste MG
+                    </option>
+
+                    <option value="IFSULDEMINAS">
+                        Instituto Federal do Sul de Minas Gerais - IFSULDEMINAS
+                    </option>
+
+                    <option value="IFTM">
+                        Instituto Federal do Triângulo Mineiro - IFTM
+                    </option>
+
+                    <option value="IFPA">Instituto Federal do Pará - IFPA</option>
+
+                    <option value="IFPB">Instituto Federal da Paraíba - IFPB</option>
+
+                    <option value="IFPR">Instituto Federal do Paraná - IFPR</option>
+
+                    <option value="IFPE">Instituto Federal de Pernambuco - IFPE</option>
+
+                    <option value="IFSertaoPE">
+                        Instituto Federal do Sertão Pernambucano - IFSertãoPE
+                    </option>
+
+                    <option value="IFPI">Instituto Federal do Piauí - IFPI</option>
+
+                    <option value="IFRJ">Instituto Federal do Rio de Janeiro - IFRJ</option>
+
+                    <option value="IFF">Instituto Federal Fluminense - IFF</option>
+
+                    <option value="IFRN">
+                        Instituto Federal do Rio Grande do Norte - IFRN
+                    </option>
+
+                    <option value="IFRS">
+                        Instituto Federal do Rio Grande do Sul - IFRS
+                    </option>
+
+                    <option value="IFFar">
+                        Instituto Federal Farroupilha - IFFar
+                    </option>
+
+                    <option value="IFSul">
+                        Instituto Federal Sul-rio-grandense - IFSul
+                    </option>
+
+                    <option value="IFRO">
+                        Instituto Federal de Rondônia - IFRO
+                    </option>
+
+                    <option value="IFRR">
+                        Instituto Federal de Roraima - IFRR
+                    </option>
+
+                    <option value="IFSC">
+                        Instituto Federal de Santa Catarina - IFSC
+                    </option>
+
+                    <option value="IFC">
+                        Instituto Federal Catarinense - IFC
+                    </option>
+
+                    <option value="IFSP">
+                        Instituto Federal de São Paulo - IFSP
+                    </option>
+
+                    <option value="IFS">
+                        Instituto Federal de Sergipe - IFS
+                    </option>
+
+                    <option value="IFTO">
+                        Instituto Federal do Tocantins - IFTO
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
             <label for="campus">
-                Campus/Instituição:
+                Campus:
             </label>
 
             <div class="campo__entrada">
@@ -264,7 +349,7 @@ Formulário de Submissão - PEnsE-Submite
                     type="text"
                     id="campus"
                     name="campus"
-                    placeholder="Ex.: IFRS - Campus Caxias do Sul"
+                    placeholder="Ex.: Campus Caxias do Sul"
                     required
                 >
 
@@ -285,38 +370,136 @@ Formulário de Submissão - PEnsE-Submite
                     id="resumo"
                     name="resumo"
                     placeholder="Digite o resumo do trabalho"
+                    maxlength="1000"
                     required
                 ></textarea>
+
+            </div>
+
+            <small class="contador">
+                <span id="contador-resumo">0</span>/1000 caracteres
+            </small>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="palavras_chave">
+                Palavras-chave:
+            </label>
+
+            <div class="campo__entrada">
+
+                <input
+                    type="text"
+                    id="palavras_chave"
+                    name="palavras_chave"
+                    placeholder="Ex.: Tecnologia, Educação, Inteligência Artificial"
+                    required
+                >
 
             </div>
 
         </div>
 
 
-        <fieldset class="modalidade">
+        <div class="campo">
 
-            <legend>
+            <label for="area_conhecimento">
+                Área do Conhecimento:
+            </label>
+
+            <div class="campo__entrada">
+
+                <select
+                    id="area_conhecimento"
+                    name="area_conhecimento"
+                    required
+                >
+
+                    <option value="" disabled selected>
+                        Selecione uma área
+                    </option>
+
+                    <option value="Ciencias Exatas e da Terra">
+                        Ciências Exatas e da Terra
+                    </option>
+
+                    <option value="Ciencias Biologicas">
+                        Ciências Biológicas
+                    </option>
+
+                    <option value="Engenharias">
+                        Engenharias
+                    </option>
+
+                    <option value="Ciencias da Saude">
+                        Ciências da Saúde
+                    </option>
+
+                    <option value="Ciencias Agrarias">
+                        Ciências Agrárias
+                    </option>
+
+                    <option value="Ciencias Sociais Aplicadas">
+                        Ciências Sociais Aplicadas
+                    </option>
+
+                    <option value="Ciencias Humanas">
+                        Ciências Humanas
+                    </option>
+
+                    <option value="Linguistica Letras e Artes">
+                        Linguística, Letras e Artes
+                    </option>
+
+                    <option value="Multidisciplinar">
+                        Multidisciplinar
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="modalidade">
                 Modalidade:
-            </legend>
+            </label>
 
-            {% for modalidade in modalidades %}
+            <div class="campo__entrada">
 
-                <label class="modalidade__opcao">
+                <select
+                    id="modalidade"
+                    name="modalidade"
+                    required
+                >
 
-                    <input
-                        type="radio"
-                        name="modalidade"
-                        value="{{ modalidade }}"
-                        required
-                    >
+                    <option value="" disabled selected>
+                        Selecione uma modalidade
+                    </option>
 
-                    {{ modalidade }}
+                    <option value="Ensino">
+                        Ensino
+                    </option>
 
-                </label>
+                    <option value="Pesquisa">
+                        Pesquisa
+                    </option>
 
-            {% endfor %}
+                    <option value="Extensao">
+                        Extensão
+                    </option>
 
-        </fieldset>
+                </select>
+
+            </div>
+
+        </div>
 
 
         <div class="arquivo">
@@ -332,7 +515,8 @@ Formulário de Submissão - PEnsE-Submite
                 type="file"
                 id="arquivo"
                 name="arquivo"
-                accept=".pdf"
+                accept=".pdf,application/pdf"
+                required
             >
 
             <span id="nome-arquivo">
@@ -353,6 +537,7 @@ Formulário de Submissão - PEnsE-Submite
 
         </div>
 
+
     </form>
 
 </section>
@@ -365,7 +550,6 @@ Formulário de Submissão - PEnsE-Submite
 
     const nomeArquivo =
         document.getElementById("nome-arquivo");
-
 
     arquivo.addEventListener(
         "change",
@@ -382,6 +566,23 @@ Formulário de Submissão - PEnsE-Submite
                     "Nenhum arquivo selecionado";
 
             }
+
+        }
+    );
+
+
+    const resumo =
+        document.getElementById("resumo");
+
+    const contadorResumo =
+        document.getElementById("contador-resumo");
+
+    resumo.addEventListener(
+        "input",
+        function () {
+
+            contadorResumo.textContent =
+                resumo.value.length;
 
         }
     );
