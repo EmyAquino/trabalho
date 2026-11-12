@@ -1,7 +1,7 @@
 import os
 import sys
 from flask import Flask, flash, redirect, url_for
-import database
+import database.database as database
 from controllers import formulario_bp
 from controllers.formulario_controller import arquivo, detalhe, formulario, index
 

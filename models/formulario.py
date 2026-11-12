@@ -1,5 +1,5 @@
 import psycopg2
-from database import get_connection
+from database.database import get_connection
 from models.autor import Autor
 from models.instituicao import Instituicao
 
