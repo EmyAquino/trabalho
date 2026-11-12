@@ -16,9 +16,26 @@
     </a>
     <nav class="topo__menu" aria-label="Principal">
       <a href="{{ url_for('index') }}"
-         class="{{ 'ativo' if request.endpoint in ('index', 'detalhe') }}">INÍCIO</a>
+         class="{{ 'ativo' if request.endpoint in ('index', 'detalhe', 'formulario.index', 'formulario.detalhe') }}">INÍCIO</a>
       <a href="{{ url_for('formulario') }}"
-         class="{{ 'ativo' if request.endpoint == 'formulario' }}">FORMULÁRIO</a>
+         class="{{ 'ativo' if request.endpoint in ('formulario', 'formulario.formulario') }}">FORMULÁRIO</a>
+
+      {% if session.get('usuario_id') %}
+        <a href="{{ url_for('dashboard') }}"
+           class="{{ 'ativo' if request.endpoint in ('dashboard', 'usuario.dashboard') }}">MEUS TRABALHOS</a>
+        <a href="{{ url_for('perfil') }}"
+           class="{{ 'ativo' if request.endpoint in ('perfil', 'usuario.perfil') }}">MEU PERFIL</a>
+        {% if (session.get('usuario_funcao') or '') | lower == 'admin' %}
+          <a href="{{ url_for('avaliador') }}"
+             class="{{ 'ativo' if request.endpoint in ('avaliador', 'formulario.avaliador') }}">AVALIADOR</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">SAIR</a>
+      {% else %}
+        <a href="{{ url_for('login') }}"
+           class="{{ 'ativo' if request.endpoint in ('login', 'usuario.login') }}">ENTRAR</a>
+        <a href="{{ url_for('cadastro') }}"
+           class="{{ 'ativo' if request.endpoint in ('cadastro', 'usuario.cadastro') }}">CADASTRO</a>
+      {% endif %}
     </nav>
   </header>
 

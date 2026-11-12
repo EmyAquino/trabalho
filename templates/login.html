@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block titulo %}Login - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="formulario formulario--compacto">
+  <h1 class="formulario__titulo">Entrar no Sistema</h1>
+
+  <form method="POST" action="{{ url_for('login') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="campo">
+      <label for="email">E-mail:</label>
+      <div class="campo__entrada">
+        <input type="email" id="email" name="email" maxlength="100"
+               value="{{ email_atual or '' }}"
+               placeholder="Digite seu e-mail" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="senha">Senha:</label>
+      <div class="campo__entrada">
+        <input type="password" id="senha" name="senha"
+               placeholder="Digite sua senha" required>
+      </div>
+    </div>
+
+    <div class="formulario__rodape">
+      <a href="{{ url_for('cadastro') }}" class="botao botao--contorno">Criar conta</a>
+      <button type="submit" class="botao botao--principal">ENTRAR</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

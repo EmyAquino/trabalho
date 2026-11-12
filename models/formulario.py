@@ -3,6 +3,8 @@ from database.database import get_connection
 from models.autor import Autor
 from models.instituicao import Instituicao
 
+STATUS_VALIDOS = ("Pendente", "Aprovado", "Reprovado")
+
 
 class Formulario:
     @staticmethod
@@ -17,6 +19,8 @@ class Formulario:
             raise ValueError("Preencha todos os campos do formulário.")
         if len(titulo) > 50:
             raise ValueError("O título deve ter no máximo 50 caracteres.")
+        if len(resumo) > 1000:
+            raise ValueError("O resumo deve ter no máximo 1000 caracteres.")
         if len(palavra_chave) > 100:
             raise ValueError("A palavra-chave deve ter no máximo 100 caracteres.")
         if len(area_conhecimento) > 255:
@@ -62,9 +66,9 @@ class Formulario:
                     """
                     INSERT INTO formularios (
                         autor_id, modalidade_id, instituicao_id,
-                        titulo, resumo, arquivo, palavra_chave, area_conhecimento
+                        titulo, resumo, arquivo, palavra_chave, area_conhecimento, status
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, 'Pendente')
                     RETURNING id;
                     """,
                     (
@@ -94,6 +98,8 @@ class Formulario:
                         f.resumo,
                         f.palavra_chave,
                         f.area_conhecimento,
+                        f.data_envio,
+                        f.status,
                         m.id AS modalidade_id,
                         m.descricao AS modalidade,
                         a.id AS autor_id,
@@ -115,7 +121,10 @@ class Formulario:
                 return [Formulario._row_to_dict(r) for r in rows]
 
     @staticmethod
-    def buscar_por_id(form_id: int) -> dict | None:
+    def listar_por_email_autor(email: str) -> list[dict]:
+        email_limpo = (email or "").strip()
+        if not email_limpo:
+            return []
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
@@ -126,6 +135,44 @@ class Formulario:
                         f.resumo,
                         f.palavra_chave,
                         f.area_conhecimento,
+                        f.data_envio,
+                        f.status,
+                        m.id AS modalidade_id,
+                        m.descricao AS modalidade,
+                        a.id AS autor_id,
+                        a.nome AS autor_nome,
+                        a.email AS autor_email,
+                        a.area AS autor_area,
+                        a.cidade AS autor_cidade,
+                        i.id AS instituicao_id,
+                        i.nome AS instituicao_nome,
+                        i.cidade AS instituicao_cidade
+                    FROM formularios f
+                    JOIN modalidades_formularios m ON m.id = f.modalidade_id
+                    JOIN autores a ON a.id = f.autor_id
+                    JOIN instituicoes i ON i.id = f.instituicao_id
+                    WHERE LOWER(a.email) = LOWER(%s)
+                    ORDER BY f.data_envio DESC, f.id DESC;
+                    """,
+                    (email_limpo,),
+                )
+                rows = cur.fetchall()
+                return [Formulario._row_to_dict(r) for r in rows]
+
+    @staticmethod
+    def buscar_por_id(form_id: int):
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    """
+                    SELECT
+                        f.id,
+                        f.titulo,
+                        f.resumo,
+                        f.palavra_chave,
+                        f.area_conhecimento,
+                        f.data_envio,
+                        f.status,
                         m.id AS modalidade_id,
                         m.descricao AS modalidade,
                         a.id AS autor_id,
@@ -151,7 +198,7 @@ class Formulario:
                 return Formulario._row_to_dict(row)
 
     @staticmethod
-    def buscar_arquivo(form_id: int) -> tuple[bytes, str] | None:
+    def buscar_arquivo(form_id: int):
         with get_connection() as conn:
             with conn.cursor() as cur:
                 cur.execute(
@@ -162,6 +209,22 @@ class Formulario:
                 if not row or row[0] is None:
                     return None
                 return bytes(row[0]), row[1]
+
+    @staticmethod
+    def atualizar_status(form_id: int, novo_status: str) -> bool:
+        status_limpo = (novo_status or "").strip()
+        if status_limpo not in STATUS_VALIDOS:
+            raise ValueError("Status inválido. Use Pendente, Aprovado ou Reprovado.")
+
+        with get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(
+                    "UPDATE formularios SET status = %s WHERE id = %s;",
+                    (status_limpo, form_id),
+                )
+                atualizado = cur.rowcount > 0
+            conn.commit()
+            return atualizado
 
     @staticmethod
     def atualizar(
@@ -260,16 +323,18 @@ class Formulario:
             "resumo": r[2],
             "palavra_chave": r[3],
             "area_conhecimento": r[4],
-            "modalidade_id": r[5],
-            "modalidade": r[6],
-            "autor_id": r[7],
-            "autor": r[8],
-            "autor_nome": r[8],
-            "autor_email": r[9],
-            "autor_area": r[10],
-            "autor_cidade": r[11],
-            "instituicao_id": r[12],
-            "campus": r[13],
-            "instituicao_nome": r[13],
-            "instituicao_cidade": r[14],
+            "data_envio": r[5],
+            "status": r[6] or "Pendente",
+            "modalidade_id": r[7],
+            "modalidade": r[8],
+            "autor_id": r[9],
+            "autor": r[10],
+            "autor_nome": r[10],
+            "autor_email": r[11],
+            "autor_area": r[12],
+            "autor_cidade": r[13],
+            "instituicao_id": r[14],
+            "campus": r[15],
+            "instituicao_nome": r[15],
+            "instituicao_cidade": r[16],
         }

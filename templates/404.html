@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block titulo %}{{ titulo_erro or '404 - Página não encontrada' }} - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="erro-pagina">
+  <h1>{{ titulo_erro or '404 - Página não encontrada' }}</h1>
+  <p>{{ mensagem_erro or 'A página que você tentou acessar não existe ou foi movida.' }}</p>
+  <a class="botao botao--principal" href="{{ url_for('index') }}">Voltar para o início</a>
+</section>
+{% endblock %}

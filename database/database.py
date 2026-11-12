@@ -2,6 +2,7 @@ import os
 from contextlib import contextmanager
 import psycopg2
 from dotenv import load_dotenv
+from werkzeug.security import generate_password_hash
 
 load_dotenv()
 
@@ -16,7 +17,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
     funcao_id INTEGER NOT NULL REFERENCES funcoes(id),
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    senha VARCHAR(20) NOT NULL
+    cpf VARCHAR(14) NOT NULL DEFAULT '',
+    instituicao VARCHAR(150) NOT NULL DEFAULT '',
+    senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS modalidades_formularios (
@@ -47,8 +50,18 @@ CREATE TABLE IF NOT EXISTS formularios (
     resumo TEXT NOT NULL,
     arquivo BYTEA NOT NULL,
     palavra_chave VARCHAR(100) NOT NULL,
-    area_conhecimento VARCHAR(255) NOT NULL
+    area_conhecimento VARCHAR(255) NOT NULL,
+    data_envio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'Pendente'
 );
+"""
+
+MIGRACOES_SQL = """
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS cpf VARCHAR(14) NOT NULL DEFAULT '';
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS instituicao VARCHAR(150) NOT NULL DEFAULT '';
+ALTER TABLE usuarios ALTER COLUMN senha TYPE VARCHAR(255);
+ALTER TABLE formularios ADD COLUMN IF NOT EXISTS data_envio TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE formularios ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'Pendente';
 """
 
 
@@ -73,10 +86,11 @@ def get_connection():
 
 
 def init_db() -> None:
-    """Garante a existência das tabelas e o seed básico de funções e modalidades."""
+    """Garante a existência das tabelas, colunas novas e seed básico."""
     with get_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(SCHEMA_SQL)
+            cur.execute(MIGRACOES_SQL)
 
             for descricao_funcao in ("Admin", "normal"):
                 cur.execute(
@@ -98,5 +112,38 @@ def init_db() -> None:
                     cur.execute(
                         "INSERT INTO modalidades_formularios (descricao) VALUES (%s);",
                         (descricao_mod,),
+                    )
+
+            # Cria um avaliador padrão para facilitar os testes do painel
+            cur.execute(
+                """
+                UPDATE usuarios
+                SET cpf = '123.456.789-09'
+                WHERE LOWER(email) = 'avaliador@ifrs.edu.br' AND cpf = '000.000.000-00';
+                """
+            )
+            cur.execute(
+                "SELECT id FROM usuarios WHERE LOWER(email) = LOWER(%s) LIMIT 1;",
+                ("avaliador@ifrs.edu.br",),
+            )
+            if not cur.fetchone():
+                cur.execute(
+                    "SELECT id FROM funcoes WHERE LOWER(descricao) = 'admin' LIMIT 1;"
+                )
+                admin_row = cur.fetchone()
+                if admin_row:
+                    cur.execute(
+                        """
+                        INSERT INTO usuarios (funcao_id, nome, email, cpf, instituicao, senha)
+                        VALUES (%s, %s, %s, %s, %s, %s);
+                        """,
+                        (
+                            admin_row[0],
+                            "Avaliador IFRS",
+                            "avaliador@ifrs.edu.br",
+                            "123.456.789-09",
+                            "IFRS - Reitoria",
+                            generate_password_hash("admin123"),
+                        ),
                     )
         conn.commit()
