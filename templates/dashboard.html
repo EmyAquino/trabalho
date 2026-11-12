@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block titulo %}Dashboard do Autor - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="painel">
+  <div class="painel__cabecalho">
+    <h1>Meus Trabalhos Submetidos</h1>
+    <a class="botao botao--contorno" href="{{ url_for('formulario') }}">Nova Submissão</a>
+  </div>
+
+  {% if trabalhos %}
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Modalidade</th>
+            <th>Data de Envio</th>
+            <th>Status da Avaliação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for t in trabalhos %}
+            {% set st = (t.status or 'Pendente') %}
+            <tr>
+              <td>{{ t.titulo }}</td>
+              <td>{{ t.modalidade }}</td>
+              <td>{{ t.data_envio | formatar_data }}</td>
+              <td>
+                <span class="status status--{{ st | lower }}">{{ st }}</span>
+              </td>
+              <td>
+                <a class="botao botao--contorno" href="{{ url_for('detalhe', id=t.id) }}">Ver</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="vazio">Você ainda não possui trabalhos submetidos com o e-mail <strong>{{ session.get('usuario_email') }}</strong>.</p>
+  {% endif %}
+</section>
+{% endblock %}

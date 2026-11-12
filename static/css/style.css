@@ -41,17 +41,15 @@ a:focus-visible, button:focus-visible {
 }
 .topo__logo img { height: 80px; width: auto; }
 
-.topo__menu { display: flex; gap: 1.5rem; flex: 1; justify-content: flex-end; }
+.topo__menu { display: flex; flex-wrap: wrap; gap: 0.75rem; flex: 1; justify-content: flex-end; }
 .topo__menu a {
-  flex: 1;
-  max-width: 260px;
   text-align: center;
-  padding: 0.35rem 1rem;
+  padding: 0.4rem 0.95rem;
   background: var(--branco);
   color: var(--texto);
   border-radius: var(--raio);
   text-decoration: none;
-  font-size: 1.4rem;
+  font-size: 1.05rem;
 }
 .topo__menu a.ativo {
   background: var(--verde-escuro);
@@ -276,4 +274,110 @@ a:focus-visible, button:focus-visible {
   .formulario { border-radius: 24px; }
   .formulario__rodape { flex-direction: column; align-items: stretch; }
   .botao--principal { width: 100%; }
+}
+
+/* ---------- Tabelas, Status e Páginas Extras ---------- */
+.formulario--compacto {
+  max-width: 650px;
+}
+
+.painel {
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.painel__cabecalho {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.painel__cabecalho h1 {
+  margin: 0;
+  color: var(--verde-escuro);
+  font-size: clamp(1.35rem, 3vw, 1.9rem);
+}
+
+.tabela-wrapper {
+  overflow-x: auto;
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabela th,
+.tabela td {
+  padding: 0.75rem 0.85rem;
+  border-bottom: 1px solid #d4d4d4;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabela th {
+  background: #f4f7ec;
+  color: var(--verde-escuro);
+}
+
+.status {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.status--pendente {
+  background: #fff3cd;
+  color: #7a5800;
+}
+
+.status--aprovado {
+  background: #d4edda;
+  color: #145a28;
+}
+
+.status--reprovado {
+  background: #f8d7da;
+  color: #842029;
+}
+
+.form-avaliacao {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-avaliacao select {
+  padding: 0.35rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #888;
+  font: inherit;
+  font-size: 0.9rem;
+}
+
+.erro-pagina {
+  text-align: center;
+  background: var(--branco);
+  border-radius: var(--raio);
+  padding: 3rem 1.5rem;
+  max-width: 650px;
+  margin: 1.5rem auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.erro-pagina h1 {
+  margin: 0 0 0.75rem;
+  color: var(--verde-escuro);
+}
+
+.erro-pagina p {
+  margin: 0 0 1.75rem;
+  font-size: 1.1rem;
 }

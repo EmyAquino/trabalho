@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block titulo %}Meu Perfil - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="formulario formulario--compacto">
+  <h1 class="formulario__titulo">Editar Meus Dados</h1>
+
+  <form method="POST" action="{{ url_for('perfil') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="campo">
+      <label for="nome">Nome Completo:</label>
+      <div class="campo__entrada">
+        <input type="text" id="nome" name="nome" maxlength="100"
+               value="{{ usuario.get('nome', '') }}" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail:</label>
+      <div class="campo__entrada">
+        <input type="email" id="email" name="email" maxlength="100"
+               value="{{ usuario.get('email', '') }}" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="cpf">CPF:</label>
+      <div class="campo__entrada">
+        <input type="text" id="cpf" name="cpf" maxlength="14"
+               value="{{ usuario.get('cpf', '') }}"
+               placeholder="000.000.000-00" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="instituicao">Instituição / Campus:</label>
+      <div class="campo__entrada">
+        <input type="text" id="instituicao" name="instituicao" maxlength="150"
+               value="{{ usuario.get('instituicao', '') }}"
+               placeholder="Ex.: IFRS - Campus Farroupilha" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="nova_senha">Nova Senha (opcional):</label>
+      <div class="campo__entrada">
+        <input type="password" id="nova_senha" name="nova_senha" minlength="6" maxlength="50"
+               placeholder="Deixe em branco para manter a senha atual">
+      </div>
+    </div>
+
+    <div class="formulario__rodape">
+      <a href="{{ url_for('dashboard') }}" class="botao botao--contorno">Voltar</a>
+      <button type="submit" class="botao botao--principal">SALVAR</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

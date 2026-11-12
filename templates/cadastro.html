@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block titulo %}Cadastro de Usuário - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="formulario formulario--compacto">
+  <h1 class="formulario__titulo">Cadastro de Usuário</h1>
+
+  {% set f = form_atual if form_atual is defined else {} %}
+
+  <form method="POST" action="{{ url_for('cadastro') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="campo">
+      <label for="nome">Nome Completo:</label>
+      <div class="campo__entrada">
+        <input type="text" id="nome" name="nome" maxlength="100"
+               value="{{ f.get('nome', '') }}"
+               placeholder="Digite seu nome completo" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="email">E-mail:</label>
+      <div class="campo__entrada">
+        <input type="email" id="email" name="email" maxlength="100"
+               value="{{ f.get('email', '') }}"
+               placeholder="Ex.: aluno@ifrs.edu.br" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="cpf">CPF:</label>
+      <div class="campo__entrada">
+        <input type="text" id="cpf" name="cpf" maxlength="14"
+               value="{{ f.get('cpf', '') }}"
+               placeholder="000.000.000-00" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="instituicao">Instituição / Campus:</label>
+      <div class="campo__entrada">
+        <input type="text" id="instituicao" name="instituicao" maxlength="150"
+               value="{{ f.get('instituicao', '') }}"
+               placeholder="Ex.: IFRS - Campus Farroupilha" required>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label for="senha">Senha:</label>
+      <div class="campo__entrada">
+        <input type="password" id="senha" name="senha" minlength="6" maxlength="50"
+               placeholder="Mínimo de 6 caracteres" required>
+      </div>
+    </div>
+
+    <div class="formulario__rodape">
+      <a href="{{ url_for('login') }}" class="botao botao--contorno">Já tenho conta</a>
+      <button type="submit" class="botao botao--principal">CADASTRAR</button>
+    </div>
+  </form>
+</section>
+{% endblock %}

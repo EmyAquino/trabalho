@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block titulo %}500 - Erro interno do servidor - PEnsE-Submite{% endblock %}
+
+{% block conteudo %}
+<section class="erro-pagina">
+  <h1>500 - Erro interno do servidor</h1>
+  <p>Ocorreu um erro inesperado ao processar sua solicitação. Tente novamente em instantes.</p>
+  <a class="botao botao--principal" href="{{ url_for('index') }}">Voltar para o início</a>
+</section>
+{% endblock %}
