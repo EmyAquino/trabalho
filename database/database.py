@@ -116,6 +116,13 @@ def init_db() -> None:
 
             # Cria um avaliador padrão para facilitar os testes do painel
             cur.execute(
+                """
+                UPDATE usuarios
+                SET cpf = '123.456.789-09'
+                WHERE LOWER(email) = 'avaliador@ifrs.edu.br' AND cpf = '000.000.000-00';
+                """
+            )
+            cur.execute(
                 "SELECT id FROM usuarios WHERE LOWER(email) = LOWER(%s) LIMIT 1;",
                 ("avaliador@ifrs.edu.br",),
             )
@@ -134,7 +141,7 @@ def init_db() -> None:
                             admin_row[0],
                             "Avaliador IFRS",
                             "avaliador@ifrs.edu.br",
-                            "000.000.000-00",
+                            "123.456.789-09",
                             "IFRS - Reitoria",
                             generate_password_hash("admin123"),
                         ),

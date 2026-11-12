@@ -72,7 +72,15 @@ def test_init_db_executa_migracoes_e_cria_avaliador_padrao(monkeypatch):
     assert "ADD COLUMN IF NOT EXISTS instituicao" in sql_completo
     assert "ADD COLUMN IF NOT EXISTS data_envio" in sql_completo
     assert "ADD COLUMN IF NOT EXISTS status" in sql_completo
-    assert any("avaliador@ifrs.edu.br" in str(q[1]) for q in cur.queries)
+    inserts_avaliador = [
+        q[1] for q in cur.queries if "INSERT INTO usuarios" in q[0]
+    ]
+    assert inserts_avaliador
+    cpf_seed = inserts_avaliador[0][3]
+    # O CPF do seed precisa passar na validacao ao editar o perfil
+    from models.usuario import _formatar_cpf
+
+    assert _formatar_cpf(cpf_seed) == cpf_seed
     assert conn.comitou is True
 
 
