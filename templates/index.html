@@ -19,7 +19,7 @@
         </header>
         <img class="card__imagem" src="{{ url_for('static', filename='img/gato1.jpg') }}" alt="">
         <p class="card__resumo">{{ t.resumo }}</p>
-        <a class="botao botao--contorno" href="{{ url_for('detalhe', id=loop.index0) }}">Visualizar</a>
+        <a class="botao botao--contorno" href="{{ url_for('detalhe', id=t.id) }}">Visualizar</a>
       </article>
     {% endfor %}
   </section>
