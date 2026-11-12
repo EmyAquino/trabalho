@@ -11,6 +11,9 @@
     </div>
   </header>
   <p class="detalhe__resumo">{{ t.resumo }}</p>
-  <a class="botao botao--contorno" href="{{ url_for('index') }}">Voltar</a>
+  <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a class="botao botao--contorno" href="{{ url_for('arquivo', id=t.id) }}" target="_blank" rel="noopener">Ver PDF</a>
+    <a class="botao botao--contorno" href="{{ url_for('index') }}">Voltar</a>
+  </div>
 </article>
 {% endblock %}

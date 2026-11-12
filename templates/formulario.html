@@ -161,6 +161,8 @@ Formulário de Submissão - PEnsE-Submite
         Formulário de Submissão
     </h1>
 
+    {% set f = form_atual if form_atual is defined else {} %}
+
     <form method="POST" enctype="multipart/form-data">
 
 
@@ -176,7 +178,9 @@ Formulário de Submissão - PEnsE-Submite
                     type="text"
                     id="titulo"
                     name="titulo"
-                    placeholder="Digite o título do trabalho"
+                    maxlength="50"
+                    value="{{ f.get('titulo', '') }}"
+                    placeholder="Digite o título do trabalho (máx. 50 caracteres)"
                     required
                 >
 
@@ -197,7 +201,78 @@ Formulário de Submissão - PEnsE-Submite
                     type="text"
                     id="autor"
                     name="autor"
+                    maxlength="100"
+                    value="{{ f.get('autor', '') }}"
                     placeholder="Digite o nome do autor"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="autor_email">
+                E-mail do Autor:
+            </label>
+
+            <div class="campo__entrada">
+
+                <input
+                    type="email"
+                    id="autor_email"
+                    name="autor_email"
+                    maxlength="100"
+                    value="{{ f.get('autor_email', '') }}"
+                    placeholder="Ex.: autor@ifrs.edu.br"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="autor_area">
+                Área de Atuação do Autor:
+            </label>
+
+            <div class="campo__entrada">
+
+                <input
+                    type="text"
+                    id="autor_area"
+                    name="autor_area"
+                    maxlength="100"
+                    value="{{ f.get('autor_area', '') }}"
+                    placeholder="Ex.: Ciência da Computação"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="autor_cidade">
+                Cidade do Autor:
+            </label>
+
+            <div class="campo__entrada">
+
+                <input
+                    type="text"
+                    id="autor_cidade"
+                    name="autor_cidade"
+                    maxlength="100"
+                    value="{{ f.get('autor_cidade', '') }}"
+                    placeholder="Ex.: Farroupilha"
                     required
                 >
 
@@ -220,113 +295,113 @@ Formulário de Submissão - PEnsE-Submite
                     required
                 >
 
-                    <option value="" disabled selected>
+                    <option value="" disabled {{ 'selected' if not f.get('instituicao') }}>
                         Selecione uma instituição
                     </option>
 
-                    <option value="IFAC">Instituto Federal do Acre - IFAC</option>
+                    <option value="IFAC" {{ 'selected' if f.get('instituicao') == 'IFAC' }}>Instituto Federal do Acre - IFAC</option>
 
-                    <option value="IFAL">Instituto Federal de Alagoas - IFAL</option>
+                    <option value="IFAL" {{ 'selected' if f.get('instituicao') == 'IFAL' }}>Instituto Federal de Alagoas - IFAL</option>
 
-                    <option value="IFAP">Instituto Federal do Amapá - IFAP</option>
+                    <option value="IFAP" {{ 'selected' if f.get('instituicao') == 'IFAP' }}>Instituto Federal do Amapá - IFAP</option>
 
-                    <option value="IFAM">Instituto Federal do Amazonas - IFAM</option>
+                    <option value="IFAM" {{ 'selected' if f.get('instituicao') == 'IFAM' }}>Instituto Federal do Amazonas - IFAM</option>
 
-                    <option value="IFBA">Instituto Federal da Bahia - IFBA</option>
+                    <option value="IFBA" {{ 'selected' if f.get('instituicao') == 'IFBA' }}>Instituto Federal da Bahia - IFBA</option>
 
-                    <option value="IFBaiano">Instituto Federal Baiano - IF Baiano</option>
+                    <option value="IFBaiano" {{ 'selected' if f.get('instituicao') == 'IFBaiano' }}>Instituto Federal Baiano - IF Baiano</option>
 
-                    <option value="IFB">Instituto Federal de Brasília - IFB</option>
+                    <option value="IFB" {{ 'selected' if f.get('instituicao') == 'IFB' }}>Instituto Federal de Brasília - IFB</option>
 
-                    <option value="IFCE">Instituto Federal do Ceará - IFCE</option>
+                    <option value="IFCE" {{ 'selected' if f.get('instituicao') == 'IFCE' }}>Instituto Federal do Ceará - IFCE</option>
 
-                    <option value="IFES">Instituto Federal do Espírito Santo - IFES</option>
+                    <option value="IFES" {{ 'selected' if f.get('instituicao') == 'IFES' }}>Instituto Federal do Espírito Santo - IFES</option>
 
-                    <option value="IFG">Instituto Federal de Goiás - IFG</option>
+                    <option value="IFG" {{ 'selected' if f.get('instituicao') == 'IFG' }}>Instituto Federal de Goiás - IFG</option>
 
-                    <option value="IFGoiano">Instituto Federal Goiano - IF Goiano</option>
+                    <option value="IFGoiano" {{ 'selected' if f.get('instituicao') == 'IFGoiano' }}>Instituto Federal Goiano - IF Goiano</option>
 
-                    <option value="IFMA">Instituto Federal do Maranhão - IFMA</option>
+                    <option value="IFMA" {{ 'selected' if f.get('instituicao') == 'IFMA' }}>Instituto Federal do Maranhão - IFMA</option>
 
-                    <option value="IFMT">Instituto Federal de Mato Grosso - IFMT</option>
+                    <option value="IFMT" {{ 'selected' if f.get('instituicao') == 'IFMT' }}>Instituto Federal de Mato Grosso - IFMT</option>
 
-                    <option value="IFMS">Instituto Federal de Mato Grosso do Sul - IFMS</option>
+                    <option value="IFMS" {{ 'selected' if f.get('instituicao') == 'IFMS' }}>Instituto Federal de Mato Grosso do Sul - IFMS</option>
 
-                    <option value="IFMG">Instituto Federal de Minas Gerais - IFMG</option>
+                    <option value="IFMG" {{ 'selected' if f.get('instituicao') == 'IFMG' }}>Instituto Federal de Minas Gerais - IFMG</option>
 
-                    <option value="IFNMG">Instituto Federal do Norte de Minas Gerais - IFNMG</option>
+                    <option value="IFNMG" {{ 'selected' if f.get('instituicao') == 'IFNMG' }}>Instituto Federal do Norte de Minas Gerais - IFNMG</option>
 
-                    <option value="IFSudesteMG">
+                    <option value="IFSudesteMG" {{ 'selected' if f.get('instituicao') == 'IFSudesteMG' }}>
                         Instituto Federal do Sudeste de Minas Gerais - IF Sudeste MG
                     </option>
 
-                    <option value="IFSULDEMINAS">
+                    <option value="IFSULDEMINAS" {{ 'selected' if f.get('instituicao') == 'IFSULDEMINAS' }}>
                         Instituto Federal do Sul de Minas Gerais - IFSULDEMINAS
                     </option>
 
-                    <option value="IFTM">
+                    <option value="IFTM" {{ 'selected' if f.get('instituicao') == 'IFTM' }}>
                         Instituto Federal do Triângulo Mineiro - IFTM
                     </option>
 
-                    <option value="IFPA">Instituto Federal do Pará - IFPA</option>
+                    <option value="IFPA" {{ 'selected' if f.get('instituicao') == 'IFPA' }}>Instituto Federal do Pará - IFPA</option>
 
-                    <option value="IFPB">Instituto Federal da Paraíba - IFPB</option>
+                    <option value="IFPB" {{ 'selected' if f.get('instituicao') == 'IFPB' }}>Instituto Federal da Paraíba - IFPB</option>
 
-                    <option value="IFPR">Instituto Federal do Paraná - IFPR</option>
+                    <option value="IFPR" {{ 'selected' if f.get('instituicao') == 'IFPR' }}>Instituto Federal do Paraná - IFPR</option>
 
-                    <option value="IFPE">Instituto Federal de Pernambuco - IFPE</option>
+                    <option value="IFPE" {{ 'selected' if f.get('instituicao') == 'IFPE' }}>Instituto Federal de Pernambuco - IFPE</option>
 
-                    <option value="IFSertaoPE">
+                    <option value="IFSertaoPE" {{ 'selected' if f.get('instituicao') == 'IFSertaoPE' }}>
                         Instituto Federal do Sertão Pernambucano - IFSertãoPE
                     </option>
 
-                    <option value="IFPI">Instituto Federal do Piauí - IFPI</option>
+                    <option value="IFPI" {{ 'selected' if f.get('instituicao') == 'IFPI' }}>Instituto Federal do Piauí - IFPI</option>
 
-                    <option value="IFRJ">Instituto Federal do Rio de Janeiro - IFRJ</option>
+                    <option value="IFRJ" {{ 'selected' if f.get('instituicao') == 'IFRJ' }}>Instituto Federal do Rio de Janeiro - IFRJ</option>
 
-                    <option value="IFF">Instituto Federal Fluminense - IFF</option>
+                    <option value="IFF" {{ 'selected' if f.get('instituicao') == 'IFF' }}>Instituto Federal Fluminense - IFF</option>
 
-                    <option value="IFRN">
+                    <option value="IFRN" {{ 'selected' if f.get('instituicao') == 'IFRN' }}>
                         Instituto Federal do Rio Grande do Norte - IFRN
                     </option>
 
-                    <option value="IFRS">
+                    <option value="IFRS" {{ 'selected' if f.get('instituicao') == 'IFRS' }}>
                         Instituto Federal do Rio Grande do Sul - IFRS
                     </option>
 
-                    <option value="IFFar">
+                    <option value="IFFar" {{ 'selected' if f.get('instituicao') == 'IFFar' }}>
                         Instituto Federal Farroupilha - IFFar
                     </option>
 
-                    <option value="IFSul">
+                    <option value="IFSul" {{ 'selected' if f.get('instituicao') == 'IFSul' }}>
                         Instituto Federal Sul-rio-grandense - IFSul
                     </option>
 
-                    <option value="IFRO">
+                    <option value="IFRO" {{ 'selected' if f.get('instituicao') == 'IFRO' }}>
                         Instituto Federal de Rondônia - IFRO
                     </option>
 
-                    <option value="IFRR">
+                    <option value="IFRR" {{ 'selected' if f.get('instituicao') == 'IFRR' }}>
                         Instituto Federal de Roraima - IFRR
                     </option>
 
-                    <option value="IFSC">
+                    <option value="IFSC" {{ 'selected' if f.get('instituicao') == 'IFSC' }}>
                         Instituto Federal de Santa Catarina - IFSC
                     </option>
 
-                    <option value="IFC">
+                    <option value="IFC" {{ 'selected' if f.get('instituicao') == 'IFC' }}>
                         Instituto Federal Catarinense - IFC
                     </option>
 
-                    <option value="IFSP">
+                    <option value="IFSP" {{ 'selected' if f.get('instituicao') == 'IFSP' }}>
                         Instituto Federal de São Paulo - IFSP
                     </option>
 
-                    <option value="IFS">
+                    <option value="IFS" {{ 'selected' if f.get('instituicao') == 'IFS' }}>
                         Instituto Federal de Sergipe - IFS
                     </option>
 
-                    <option value="IFTO">
+                    <option value="IFTO" {{ 'selected' if f.get('instituicao') == 'IFTO' }}>
                         Instituto Federal do Tocantins - IFTO
                     </option>
 
@@ -349,7 +424,32 @@ Formulário de Submissão - PEnsE-Submite
                     type="text"
                     id="campus"
                     name="campus"
+                    maxlength="200"
+                    value="{{ f.get('campus', '') }}"
                     placeholder="Ex.: Campus Caxias do Sul"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="campo">
+
+            <label for="instituicao_cidade">
+                Cidade da Instituição:
+            </label>
+
+            <div class="campo__entrada">
+
+                <input
+                    type="text"
+                    id="instituicao_cidade"
+                    name="instituicao_cidade"
+                    maxlength="100"
+                    value="{{ f.get('instituicao_cidade', '') }}"
+                    placeholder="Ex.: Caxias do Sul"
                     required
                 >
 
@@ -372,12 +472,12 @@ Formulário de Submissão - PEnsE-Submite
                     placeholder="Digite o resumo do trabalho"
                     maxlength="1000"
                     required
-                ></textarea>
+                >{{ f.get('resumo', '') }}</textarea>
 
             </div>
 
             <small class="contador">
-                <span id="contador-resumo">0</span>/1000 caracteres
+                <span id="contador-resumo">{{ f.get('resumo', '') | length }}</span>/1000 caracteres
             </small>
 
         </div>
@@ -395,6 +495,8 @@ Formulário de Submissão - PEnsE-Submite
                     type="text"
                     id="palavras_chave"
                     name="palavras_chave"
+                    maxlength="100"
+                    value="{{ f.get('palavras_chave', '') }}"
                     placeholder="Ex.: Tecnologia, Educação, Inteligência Artificial"
                     required
                 >
@@ -418,43 +520,43 @@ Formulário de Submissão - PEnsE-Submite
                     required
                 >
 
-                    <option value="" disabled selected>
+                    <option value="" disabled {{ 'selected' if not f.get('area_conhecimento') }}>
                         Selecione uma área
                     </option>
 
-                    <option value="Ciencias Exatas e da Terra">
+                    <option value="Ciencias Exatas e da Terra" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias Exatas e da Terra' }}>
                         Ciências Exatas e da Terra
                     </option>
 
-                    <option value="Ciencias Biologicas">
+                    <option value="Ciencias Biologicas" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias Biologicas' }}>
                         Ciências Biológicas
                     </option>
 
-                    <option value="Engenharias">
+                    <option value="Engenharias" {{ 'selected' if f.get('area_conhecimento') == 'Engenharias' }}>
                         Engenharias
                     </option>
 
-                    <option value="Ciencias da Saude">
+                    <option value="Ciencias da Saude" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias da Saude' }}>
                         Ciências da Saúde
                     </option>
 
-                    <option value="Ciencias Agrarias">
+                    <option value="Ciencias Agrarias" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias Agrarias' }}>
                         Ciências Agrárias
                     </option>
 
-                    <option value="Ciencias Sociais Aplicadas">
+                    <option value="Ciencias Sociais Aplicadas" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias Sociais Aplicadas' }}>
                         Ciências Sociais Aplicadas
                     </option>
 
-                    <option value="Ciencias Humanas">
+                    <option value="Ciencias Humanas" {{ 'selected' if f.get('area_conhecimento') == 'Ciencias Humanas' }}>
                         Ciências Humanas
                     </option>
 
-                    <option value="Linguistica Letras e Artes">
+                    <option value="Linguistica Letras e Artes" {{ 'selected' if f.get('area_conhecimento') == 'Linguistica Letras e Artes' }}>
                         Linguística, Letras e Artes
                     </option>
 
-                    <option value="Multidisciplinar">
+                    <option value="Multidisciplinar" {{ 'selected' if f.get('area_conhecimento') == 'Multidisciplinar' }}>
                         Multidisciplinar
                     </option>
 
@@ -479,21 +581,32 @@ Formulário de Submissão - PEnsE-Submite
                     required
                 >
 
-                    <option value="" disabled selected>
+                    <option value="" disabled {{ 'selected' if not f.get('modalidade') }}>
                         Selecione uma modalidade
                     </option>
 
-                    <option value="Ensino">
-                        Ensino
-                    </option>
+                    {% if modalidades %}
+                        {% for mod in modalidades %}
+                            <option
+                                value="{{ mod.descricao }}"
+                                {{ 'selected' if f.get('modalidade') in (mod.descricao, mod.id | string) }}
+                            >
+                                {{ mod.descricao }}
+                            </option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="Ensino" {{ 'selected' if f.get('modalidade') == 'Ensino' }}>
+                            Ensino
+                        </option>
 
-                    <option value="Pesquisa">
-                        Pesquisa
-                    </option>
+                        <option value="Pesquisa" {{ 'selected' if f.get('modalidade') == 'Pesquisa' }}>
+                            Pesquisa
+                        </option>
 
-                    <option value="Extensao">
-                        Extensão
-                    </option>
+                        <option value="Extensao" {{ 'selected' if f.get('modalidade') in ('Extensao', 'Extensão') }}>
+                            Extensão
+                        </option>
+                    {% endif %}
 
                 </select>
 
