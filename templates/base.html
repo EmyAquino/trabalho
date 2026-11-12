@@ -26,8 +26,8 @@
         <a href="{{ url_for('perfil') }}"
            class="{{ 'ativo' if request.endpoint in ('perfil', 'usuario.perfil') }}">MEU PERFIL</a>
         {% if (session.get('usuario_funcao') or '') | lower == 'admin' %}
-          <a href="/avaliador"
-             class="{{ 'ativo' if request.path.startswith('/avaliador') }}">AVALIADOR</a>
+          <a href="{{ url_for('avaliador') }}"
+             class="{{ 'ativo' if request.endpoint in ('avaliador', 'formulario.avaliador') }}">AVALIADOR</a>
         {% endif %}
         <a href="{{ url_for('logout') }}">SAIR</a>
       {% else %}

@@ -164,6 +164,7 @@ Formulário de Submissão - PEnsE-Submite
     {% set f = form_atual if form_atual is defined else {} %}
 
     <form method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
 
         <div class="campo">

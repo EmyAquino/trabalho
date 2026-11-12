@@ -4,7 +4,14 @@ import sys
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 import database.database as database
 from controllers import formulario_bp, usuario_bp
-from controllers.formulario_controller import arquivo, detalhe, formulario, index
+from controllers.formulario_controller import (
+    arquivo,
+    atualizar_status,
+    avaliador,
+    detalhe,
+    formulario,
+    index,
+)
 from controllers.usuario_controller import cadastro, dashboard, login, logout, perfil
 
 
@@ -73,6 +80,13 @@ def create_app(testing: bool = False) -> Flask:
         "/perfil", endpoint="perfil", view_func=perfil, methods=["GET", "POST"]
     )
     flask_app.add_url_rule("/dashboard", endpoint="dashboard", view_func=dashboard)
+    flask_app.add_url_rule("/avaliador", endpoint="avaliador", view_func=avaliador)
+    flask_app.add_url_rule(
+        "/avaliador/status/<int:id>",
+        endpoint="atualizar_status",
+        view_func=atualizar_status,
+        methods=["POST"],
+    )
 
     @flask_app.errorhandler(404)
     def pagina_nao_encontrada(_erro):

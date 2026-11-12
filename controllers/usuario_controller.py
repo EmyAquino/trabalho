@@ -57,7 +57,7 @@ def login():
 
         flash(f"Bem-vindo(a), {usuario['nome']}!")
         if (usuario["funcao"] or "").lower() == "admin":
-            return redirect("/avaliador")
+            return redirect(url_for("avaliador"))
         return redirect(url_for("dashboard"))
 
     return render_template("login.html", email_atual="")

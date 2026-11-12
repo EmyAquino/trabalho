@@ -7,6 +7,7 @@ from flask import (
     render_template,
     request,
     send_file,
+    session,
     url_for,
 )
 from werkzeug.utils import secure_filename
@@ -25,10 +26,12 @@ def _ler_pdf(arquivo) -> bytes:
     dados = arquivo.read()
     if not dados:
         raise ValueError("O arquivo enviado está vazio.")
+    if not dados.startswith(b"%PDF"):
+        raise ValueError("O arquivo enviado não é um PDF válido.")
     return dados
 
 
-def _resolver_modalidade_id(valor_modalidade: str) -> int | None:
+def _resolver_modalidade_id(valor_modalidade: str):
     valor = (valor_modalidade or "").strip()
     if not valor:
         return None
@@ -37,6 +40,16 @@ def _resolver_modalidade_id(valor_modalidade: str) -> int | None:
         return mod["id"] if mod else None
     mod = Modalidade.buscar_por_descricao(valor)
     return mod["id"] if mod else None
+
+
+def _verificar_acesso_avaliador():
+    if not session.get("usuario_id"):
+        flash("Faça login como avaliador para acessar este painel.")
+        return redirect(url_for("login"))
+    if (session.get("usuario_funcao") or "").lower() != "admin":
+        flash("Acesso restrito aos avaliadores.")
+        return redirect(url_for("index"))
+    return None
 
 
 @formulario_bp.route("/")
@@ -127,7 +140,14 @@ def formulario():
         flash("Trabalho enviado com sucesso!")
         return redirect(url_for("index"))
 
-    return render_template("formulario.html", modalidades=modalidades, form_atual={})
+    form_inicial = {}
+    if session.get("usuario_id"):
+        form_inicial = {
+            "autor": session.get("usuario_nome", ""),
+            "autor_email": session.get("usuario_email", ""),
+        }
+
+    return render_template("formulario.html", modalidades=modalidades, form_atual=form_inicial)
 
 
 @formulario_bp.route("/trabalho/<int:id>")
@@ -151,3 +171,34 @@ def arquivo(id: int):
         as_attachment=False,
         download_name=nome_download,
     )
+
+
+@formulario_bp.route("/avaliador")
+def avaliador():
+    bloqueio = _verificar_acesso_avaliador()
+    if bloqueio:
+        return bloqueio
+
+    trabalhos = Formulario.listar_todos()
+    return render_template("avaliador.html", trabalhos=trabalhos)
+
+
+@formulario_bp.route("/avaliador/status/<int:id>", methods=["POST"])
+def atualizar_status(id: int):
+    bloqueio = _verificar_acesso_avaliador()
+    if bloqueio:
+        return bloqueio
+
+    novo_status = request.form.get("status", "").strip()
+    try:
+        atualizado = Formulario.atualizar_status(id, novo_status)
+    except ValueError as erro:
+        flash(str(erro))
+        trabalhos = Formulario.listar_todos()
+        return render_template("avaliador.html", trabalhos=trabalhos), 400
+
+    if not atualizado:
+        abort(404)
+
+    flash(f"Status do trabalho atualizado para {novo_status}.")
+    return redirect(url_for("avaliador"))
