@@ -8,6 +8,8 @@ class Autor:
 
         if not (nome and email and area and cidade):
             raise ValueError("Preencha todos os campos do autor.")
+        if "@" not in email or "." not in email.split("@")[-1]:
+            raise ValueError("Informe um e-mail válido para o autor.")
         if any(len(v) > 100 for v in (nome, email, area, cidade)):
             raise ValueError("Os campos do autor devem ter no máximo 100 caracteres.")
 
